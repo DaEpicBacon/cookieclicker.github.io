@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cookie Clicker</title>
+  <style>
+    #cookieImage {
+      width: 200px;
+      height: 133px;
+      cursor: pointer;
+    }
+    #cookieCount {
+      font-size: 24px;
+    }
+    .upgrade {
+      border: 1px solid black;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .upgrade button {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cookie Clicker</h1>
+  <div>
+    <img id="cookieImage" src="https://cdn.discordapp.com/attachments/1099335510180245565/1104590440075886744/Pixel-art-cookie-580x386.jpg" alt="Cookie">
+    <br>
+    Cookie Count: <span id="cookieCount">0</span>
+  </div>
+  <div id="upgrades"></div>
+
+  <script>
+    var cookieCount = 0;
+    var clickIncrement = 1;
+
+    function incrementCookieCount() {
+      cookieCount += clickIncrement;
+      document.getElementById('cookieCount').innerHTML = cookieCount;
+    }
+
+    var upgrades = [
+      { name: 'Cursor', cost: 10, increment: 1 },
+      { name: 'Grandma', cost: 50, increment: 5 },
+      { name: 'Farm', cost: 100, increment: 10 },
+      { name: 'Factory', cost: 200, increment: 20 },
+      { name: 'Cookie Mine', cost: 500, increment: 30 },
+      { name: 'Gourmet Pastry', cost: 1000, increment: 50 },
+      { name: 'Online Shop', cost: 2500, increment: 80 },
+      { name: 'Cafe', cost: 5000, increment: 100 },
+      { name: 'Cookie Gallery', cost: 7500, increment: 150 },
+      { name: 'Bank', cost: 10000, increment: 300 },
+      { name: 'Advertisements', cost: 12500, increment: 500 },
+      { name: 'Gourment Restaurant', cost: 18000, increment: 750 },
+      { name: 'International Shipping', cost: 30000, increment: 1500 },
+      { name: 'Space Ingredients', cost: 50000, increment: 2250 },
+      { name: 'Cookie Land', cost: 150000, increment: 3700 },
+      { name: 'Cookie Laboratory', cost: 250000, increment: 7000 },
+      { name: 'Diamond Cookie Mine', cost: 500000, increment: 10000 },
+      { name: 'Cookie Land Empire', cost: 750000, increment: 13000 },
+      { name: 'Quantum Cookie Research', cost: 900000, increment: 17000 },
+      { name: 'Full Robot Worker Team', cost: 1000000, increment: 20000 },
+      { name: 'Mega Cookie Mall', cost: 1250000, increment: 25000 },
+    ];
+
+    function purchaseUpgrade(index) {
+      var upgrade = upgrades[index];
+      if (cookieCount >= upgrade.cost) {
+        cookieCount -= upgrade.cost;
+        upgrade.cost *= 2;
+        clickIncrement += upgrade.increment;
+        document.getElementById('cookieCount').innerHTML = cookieCount;
+        document.getElementById('upgradeCost' + index).innerHTML = upgrade.cost;
+        document.getElementById('upgradeIncrement' + index).innerHTML = upgrade.increment;
+
+        // Update the cookie count increment per click
+        document.getElementById('cookieImage').onclick = function() {
+          incrementCookieCount();
+        };
+      }
+    }
+
+    function generateUpgrades() {
+      var upgradesHTML = '';
+      for (var i = 0; i < upgrades.length; i++) {
+        var upgrade = upgrades[i];
+        upgradesHTML += '<div class="upgrade">';
+        upgradesHTML += '<span class="upgradeName">' + upgrade.name + '</span><br>';
+        upgradesHTML += 'Cost: <span id="upgradeCost' + i + '">' + upgrade.cost + '</span><br>';
+        upgradesHTML += 'Increment: <span id="upgradeIncrement' + i + '">' + upgrade.increment + '</span><br>';
+        upgradesHTML += '<button onclick="purchaseUpgrade(' + i + ')">Purchase</button>';
+        upgradesHTML += '</div>';
+      }
+      document.getElementById('upgrades').innerHTML = upgradesHTML;
+    }
+
+    function initGame() {
+      generateUpgrades();
+      document.getElementById('cookieImage').onclick = function() {
+        incrementCookieCount();
+      };
+    }
+
+    initGame();
+  </script>
+</body>
+</html>
